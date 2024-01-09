@@ -19,11 +19,13 @@ SecretClientOptions options = new SecretClientOptions()
          }
 };
 
-var client = new SecretClient(new Uri("https://kvboveda.vault.azure.net/"), new DefaultAzureCredential(), options);
 
-string secretValue;
 try
 {
+    var client = new SecretClient(new Uri("https://kvboveda.vault.azure.net/"), new DefaultAzureCredential(), options);
+
+    string secretValue;
+
     KeyVaultSecret secret = client.GetSecret("elsecreto");
 
     secretValue = secret.Value;

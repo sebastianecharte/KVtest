@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-string elTexto = "El texto 2";
+string elTexto = "El texto 3";
 
 UnServicio unServicio = new(elTexto);
 

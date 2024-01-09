@@ -21,9 +21,18 @@ SecretClientOptions options = new SecretClientOptions()
 
 var client = new SecretClient(new Uri("https://kvboveda.vault.azure.net/"), new DefaultAzureCredential(), options);
 
-KeyVaultSecret secret = client.GetSecret("<elsecreto>");
+string secretValue;
+try
+{
+    KeyVaultSecret secret = client.GetSecret("elsecreto");
 
-string secretValue = secret.Value;
+    secretValue = secret.Value;
+}
+catch (Exception ex)
+{
+    secretValue = "ERROR: " + ex.Message;
+}
+
 
 
 //string elTexto = "El texto 3";

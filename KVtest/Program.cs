@@ -1,3 +1,6 @@
+using Azure.Core;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using KVtest.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,9 +8,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-string elTexto = "El texto 3";
+SecretClientOptions options = new SecretClientOptions()
+{
+    Retry =
+        {
+            Delay= TimeSpan.FromSeconds(2),
+            MaxDelay = TimeSpan.FromSeconds(16),
+            MaxRetries = 5,
+            Mode = RetryMode.Exponential
+         }
+};
 
-UnServicio unServicio = new(elTexto);
+var client = new SecretClient(new Uri("https://kvboveda.vault.azure.net/"), new DefaultAzureCredential(), options);
+
+KeyVaultSecret secret = client.GetSecret("<elsecreto>");
+
+string secretValue = secret.Value;
+
+
+//string elTexto = "El texto 3";
+
+UnServicio unServicio = new(secretValue);
 
 builder.Services.AddSingleton(unServicio);
 
